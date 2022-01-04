@@ -21,9 +21,10 @@ int main (int argc, char *argv[]) {
 	keyboardReader kb(&connectionHandler);
     socketReader sr(&connectionHandler);
     std::thread th1(&keyboardReader::run,&kb);
-    std::thread th1(&socketReader::run,&sr);
+    std::thread th2(&socketReader::run,&sr);
 
     th1.join();
+    th2.join();
 	//From here we will see the rest of the ehco client implementation:
 //    while (1) {
 //        const short bufsize = 1024;
