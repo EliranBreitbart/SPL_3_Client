@@ -117,7 +117,7 @@ void ConnectionHandler::shortToBytes(short num, char* bytesArr)
     bytesArr[1] = (num & 0xFF);
 }
 
-void decode(string frame){
+void ConnectionHandler::decode(std::string frame){
     std::string toPrint = "";
     char opcode[2];
     opcode[0] = frame[0];

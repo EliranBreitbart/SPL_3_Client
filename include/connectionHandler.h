@@ -16,6 +16,7 @@ private:
     void shortToBytes(short num, char* bytesArr);
     short bytesToShort(char* bytesArr);
     std::vector<char> encode(std::string msg);
+    void decode(std::string frame);
 public:
     ConnectionHandler(std::string host, short port);
     virtual ~ConnectionHandler();
