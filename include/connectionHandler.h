@@ -12,8 +12,9 @@ private:
 	const std::string host_;
 	const short port_;
 	boost::asio::io_service io_service_;   // Provides core I/O functionality
-	tcp::socket socket_; 
- 
+	tcp::socket socket_;
+    void shortToBytes(short num, char* bytesArr);
+    short bytesToShort(char* bytesArr);
 public:
     ConnectionHandler(std::string host, short port);
     virtual ~ConnectionHandler();
