@@ -1,5 +1,5 @@
-#include <connectionHandler.h>
- 
+#include "../include/connectionHandler.h"
+
 using boost::asio::ip::tcp;
 
 using std::cin;
@@ -104,14 +104,14 @@ void ConnectionHandler::close() {
     }
 }
 
-short bytesToShort(char* bytesArr)
+short ConnectionHandler::bytesToShort(char* bytesArr)
 {
     short result = (short)((bytesArr[0] & 0xff) << 8);
     result += (short)(bytesArr[1] & 0xff);
     return result;
 }
 
-void shortToBytes(short num, char* bytesArr)
+void ConnectionHandler::shortToBytes(short num, char* bytesArr)
 {
     bytesArr[0] = ((num >> 8) & 0xFF);
     bytesArr[1] = (num & 0xFF);
@@ -282,7 +282,7 @@ std::vector<char> ConnectionHandler::encode(std::string msg) {
         shortToBytes((short) 5, op);
         result.push_back(op[0]);
         result.push_back(op[1]);
-        for(int i = 2; i < msg.length() - 1; i++){
+        for(unsigned int i = 2; i < msg.length() - 1; i++){
             result.push_back(msg[i]);
         }
         result.push_back('\0');
@@ -296,7 +296,7 @@ std::vector<char> ConnectionHandler::encode(std::string msg) {
             result.push_back(k);
         }
         result.push_back('\0');
-        for(int i = 2 + index; i < msg.length(); i++){
+        for(unsigned int i = 2 + index; i < msg.length(); i++){
             result.push_back(msg[i]);
         }
         result.push_back('\0');
@@ -315,7 +315,7 @@ std::vector<char> ConnectionHandler::encode(std::string msg) {
         shortToBytes((short) 8, op);
         result.push_back(op[0]);
         result.push_back(op[1]);
-        for(int i = 2; i < msg.length(); i++){
+        for( unsigned int i = 2; i < msg.length(); i++){
             result.push_back(msg[i]);
         }
         result.push_back('\0');
@@ -323,7 +323,7 @@ std::vector<char> ConnectionHandler::encode(std::string msg) {
         shortToBytes((short) 12, op);
         result.push_back(op[0]);
         result.push_back(op[1]);
-        for(int i = 2; i < msg.length(); i++){
+        for(unsigned int i = 2; i < msg.length(); i++){
             result.push_back(msg[i]);
         }
         result.push_back('\0');
