@@ -117,6 +117,109 @@ void shortToBytes(short num, char* bytesArr)
     bytesArr[1] = (num & 0xFF);
 }
 
+void decode(string frame){
+    std::string toPrint = "";
+    char opcode[2];
+    opcode[0] = frame[0];
+    opcode[1] = frame[1];
+    short op = bytesToShort(opcode);
+    frame = frame.substr(2);
+    switch (op) {
+        case 9: //notification
+            toPrint += "NOTIFICATION ";
+            if(frame[0] == '0')
+                toPrint += "PM ";
+            else{
+                if(frame[0] == '1')
+                    toPrint += "Public ";
+            }
+            frame = frame.substr(1);
+            while(frame.length()>0){
+                if (frame[0] == '\0'){
+                    if(frame.length() != 1)
+                        toPrint += " ";
+                }
+                else{
+                    toPrint += frame[0];
+                }
+                frame = frame.substr(1);
+            }
+            cout << toPrint;
+            break;
+        case 10: { //ACK
+            toPrint += "ACK ";
+            char senderOp[2];
+            senderOp[0] = frame[0];
+            senderOp[1] = frame[1];
+            short senderOpcode = bytesToShort(senderOp);
+            toPrint += senderOpcode;
+            frame = frame.substr(2);
+            switch (senderOpcode) {
+                case 1: //register
+                case 3: //logout
+                    cout << toPrint;
+                    break;
+                case 4: //follow/unfollow
+                    toPrint += " ";
+                    while (frame[0] != '\0') { //username
+                        toPrint += frame[0];
+                    }
+                    cout << toPrint;
+                    break;
+                case 7: //logstat
+                case 8: //stat
+                    while (frame.length() > 0) {
+                        char age[2];
+                        age[0] = frame[0];
+                        age[1] = frame[1];
+                        short shortAge = bytesToShort(age);
+                        toPrint += shortAge;
+                        frame = frame.substr(2);
+                        toPrint += " ";
+
+                        char numPosts[2];
+                        numPosts[0] = frame[0];
+                        numPosts[1] = frame[1];
+                        short shortNumPosts = bytesToShort(numPosts);
+                        toPrint += shortNumPosts;
+                        frame = frame.substr(2);
+                        toPrint += " ";
+
+                        char numFollowers[2];
+                        numFollowers[0] = frame[0];
+                        numFollowers[1] = frame[1];
+                        short shortNumFollowers = bytesToShort(numFollowers);
+                        toPrint += shortNumFollowers;
+                        frame = frame.substr(2);
+                        toPrint += " ";
+
+                        char numFollowing[2];
+                        numFollowing[0] = frame[0];
+                        numFollowing[1] = frame[1];
+                        short shortNumFollowing = bytesToShort(numFollowing);
+                        toPrint += shortNumFollowers;
+                        frame = frame.substr(2);
+
+                        frame = frame.substr(1); //remove divider
+
+                        cout << toPrint;
+                        toPrint = "ACK " + senderOpcode;
+                    }
+                    break;
+            }
+            break;
+        }
+        case 11: //error
+            toPrint += "ERROR ";
+            char sendOp[2];
+            sendOp[0] = frame[0];
+            sendOp[1] = frame[1];
+            short shortSendOp = bytesToShort(sendOp);
+            toPrint += shortSendOp;
+        break;
+    }
+}
+
 std::vector<char> ConnectionHandler::encode(std::string msg) {
     std::vector<char> result;
     std::istringstream iss(msg);
