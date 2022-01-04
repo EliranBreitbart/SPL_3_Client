@@ -84,6 +84,7 @@ bool ConnectionHandler::getFrameAscii(std::string& frame, char delimiter) {
         std::cerr << "recv failed (Error: " << e.what() << ')' << std::endl;
         return false;
     }
+    decode(frame);
     return true;
 }
  
@@ -152,7 +153,7 @@ void ConnectionHandler::decode(std::string frame){
             senderOp[0] = frame[0];
             senderOp[1] = frame[1];
             short senderOpcode = bytesToShort(senderOp);
-            toPrint += senderOpcode;
+            toPrint += std::to_string(senderOpcode);
             frame = frame.substr(2);
             switch (senderOpcode) {
                 case 1: //register
@@ -173,7 +174,7 @@ void ConnectionHandler::decode(std::string frame){
                         age[0] = frame[0];
                         age[1] = frame[1];
                         short shortAge = bytesToShort(age);
-                        toPrint += shortAge;
+                        toPrint += std::to_string(shortAge);
                         frame = frame.substr(2);
                         toPrint += " ";
 
@@ -181,7 +182,7 @@ void ConnectionHandler::decode(std::string frame){
                         numPosts[0] = frame[0];
                         numPosts[1] = frame[1];
                         short shortNumPosts = bytesToShort(numPosts);
-                        toPrint += shortNumPosts;
+                        toPrint += std::to_string(shortNumPosts);
                         frame = frame.substr(2);
                         toPrint += " ";
 
@@ -189,7 +190,7 @@ void ConnectionHandler::decode(std::string frame){
                         numFollowers[0] = frame[0];
                         numFollowers[1] = frame[1];
                         short shortNumFollowers = bytesToShort(numFollowers);
-                        toPrint += shortNumFollowers;
+                        toPrint += std::to_string(shortNumFollowers);
                         frame = frame.substr(2);
                         toPrint += " ";
 
@@ -197,13 +198,13 @@ void ConnectionHandler::decode(std::string frame){
                         numFollowing[0] = frame[0];
                         numFollowing[1] = frame[1];
                         short shortNumFollowing = bytesToShort(numFollowing);
-                        toPrint += shortNumFollowers;
+                        toPrint += std::to_string(shortNumFollowers);
                         frame = frame.substr(2);
 
                         frame = frame.substr(1); //remove divider
 
                         cout << toPrint;
-                        toPrint = "ACK " + senderOpcode;
+                        toPrint = "ACK " + std::to_string(senderOpcode);
                     }
                     break;
             }
@@ -215,7 +216,8 @@ void ConnectionHandler::decode(std::string frame){
             sendOp[0] = frame[0];
             sendOp[1] = frame[1];
             short shortSendOp = bytesToShort(sendOp);
-            toPrint += shortSendOp;
+            toPrint += std::to_string(shortSendOp);
+            cout << toPrint;
         break;
     }
 }
@@ -249,7 +251,7 @@ std::vector<char> ConnectionHandler::encode(std::string msg) {
             result.push_back('\0');
         }
         iss >> word;
-        if(word.compare("0")){
+        if(word =="0"){
             result.push_back('\0');
         }else{
             result.push_back('\1');
