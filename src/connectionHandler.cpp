@@ -198,7 +198,7 @@ void ConnectionHandler::decode(std::string frame){
                         numFollowing[0] = frame[0];
                         numFollowing[1] = frame[1];
                         short shortNumFollowing = bytesToShort(numFollowing);
-                        toPrint += std::to_string(shortNumFollowers);
+                        toPrint += std::to_string(shortNumFollowing);
                         frame = frame.substr(2);
 
                         frame = frame.substr(1); //remove divider
