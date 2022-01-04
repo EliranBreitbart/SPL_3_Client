@@ -4,15 +4,18 @@ SRCS = $(wildcard ./src/*.cpp)
 OBJS = $(patsubst ./src/%.cpp,./bin/%.o, $(SRCS))
 DEPS := $(patsubst %.o,%.d, $(OBJS))
 all: EchoClient
-	g++ -o bin/echo.elf bin/connectionHandler.o bin/echoClient.o $(LDFLAGS)
+	g++ -o bin/echo.elf bin/connectionHandler.o bin/echoClient.o bin/keyboardReader.o $(LDFLAGS)
 
-EchoClient: bin/connectionHandler.o bin/echoClient.o
+EchoClient: bin/connectionHandler.o bin/echoClient.o bin/keyboardReader.o
 
 bin/connectionHandler.o: src/connectionHandler.cpp
 	g++ $(CFLAGS) -o bin/connectionHandler.o src/connectionHandler.cpp
 
 bin/echoClient.o: src/echoClient.cpp
 	g++ $(CFLAGS) -o bin/echoClient.o src/echoClient.cpp
+
+bin/keyboardReader.o: src/keyboardReader.cpp
+	g++ $(CFLAGS) -o bin/keyboardReader.o src/keyboardReader.cpp
 
 .PHONY: clean
 clean:

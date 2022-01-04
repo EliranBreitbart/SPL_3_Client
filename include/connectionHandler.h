@@ -15,6 +15,7 @@ private:
 	tcp::socket socket_;
     void shortToBytes(short num, char* bytesArr);
     short bytesToShort(char* bytesArr);
+    std::vector<char> encode(std::string msg);
 public:
     ConnectionHandler(std::string host, short port);
     virtual ~ConnectionHandler();
