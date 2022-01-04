@@ -89,7 +89,8 @@ bool ConnectionHandler::getFrameAscii(std::string& frame, char delimiter) {
  
 bool ConnectionHandler::sendFrameAscii(const std::string& frame, char delimiter) {
     std::vector<char> encoded = encode(frame);
-	bool result=sendBytes(frame.c_str(),frame.length());
+    char* a = &encoded[0];
+	bool result=sendBytes(a,encoded.size());
 	if(!result) return false;
 	return sendBytes(&delimiter,1);
 }
@@ -224,4 +225,5 @@ std::vector<char> ConnectionHandler::encode(std::string msg) {
         }
         result.push_back('\0');
     }
+    return result;
 }
