@@ -130,7 +130,7 @@ void ConnectionHandler::decode(std::string &frame){
     frame = frame.substr(2);
     switch (op) {
         case 9: //notification
-            toPrint += "NOTIFICATION - ";
+            toPrint += "NOTIFICATION- ";
             if(frame[0] == '0')
                 toPrint += "PM ";
             else{
