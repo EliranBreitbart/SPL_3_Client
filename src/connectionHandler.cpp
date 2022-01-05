@@ -175,6 +175,7 @@ void ConnectionHandler::decode(std::string frame){
 
                     while (frame[0] != '\0') { //username
                         toPrint += frame[0];
+                        frame = frame.substr(1);
                     }
                     cout << toPrint;
                     break;
