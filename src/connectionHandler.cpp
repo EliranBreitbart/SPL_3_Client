@@ -224,8 +224,10 @@ void ConnectionHandler::decode(std::string &frame){
 
                         allToPrint += toPrint;
                         //cout << toPrint <<std::endl;
+                        toPrint.clear();
                         toPrint = "ACK " + std::to_string(senderOpcode);
                     }
+                    toPrint.clear();
                     toPrint = allToPrint;
                     allToPrint.clear();
                     break;
