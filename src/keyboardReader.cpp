@@ -6,7 +6,7 @@
 
 keyboardReader::keyboardReader(ConnectionHandler *_connectionHandler) : connectionHandler(_connectionHandler){}
 void keyboardReader::run() {
-    while (1) {
+    while (!connectionHandler->isTerminated() && 1) {
         const short bufsize = 1024;
         char buf[bufsize];
         std::cin.getline(buf, bufsize);

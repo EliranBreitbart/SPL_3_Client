@@ -337,3 +337,11 @@ std::vector<char> ConnectionHandler::encode(std::string msg) {
     }
     return result;
 }
+
+bool ConnectionHandler::isTerminated() const {
+    return terminated;
+}
+
+void ConnectionHandler::setTerminated(bool terminated) {
+    ConnectionHandler::terminated = terminated;
+}

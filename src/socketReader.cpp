@@ -7,18 +7,21 @@
 socketReader::socketReader(ConnectionHandler* _connectionHandler) : connectionHandler(_connectionHandler){}
 
 void socketReader::run() {
-    while (1) {
+    while (!connectionHandler->isTerminated() && 1) {
         std::string answer;
         if (!connectionHandler->getLine(answer)) {
             std::cout << "Disconnected. Exiting...\n" << std::endl;
+            std::cout << "Press Enter to exit\n" << std::endl;
+            connectionHandler->setTerminated(true);
             break;
-        }
-        int len = answer.length();
-        answer.resize(len - 1); //TODO check
-        std::cout << answer;
-        if (answer == "bye") { //TODO change
-            std::cout << "Exiting...\n" << std::endl;
-            break;
+        } else {
+            int len = answer.length();
+            answer.resize(len - 1);
+            std::cout << answer;
+            if (answer == "bye") { 
+                std::cout << "Exiting...\n" << std::endl;
+                break;
+            }
         }
     }
 }

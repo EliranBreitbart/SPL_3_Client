@@ -17,10 +17,13 @@ private:
     short bytesToShort(char* bytesArr);
     std::vector<char> encode(std::string msg);
     void decode(std::string frame);
+    bool terminated = false;
+
 public:
     ConnectionHandler(std::string host, short port);
     virtual ~ConnectionHandler();
- 
+    bool isTerminated() const;
+    void setTerminated(bool terminated);
     // Connect to the remote machine
     bool connect();
  
@@ -50,6 +53,7 @@ public:
 	
     // Close down the connection properly.
     void close();
+
  
 }; //class ConnectionHandler
  
