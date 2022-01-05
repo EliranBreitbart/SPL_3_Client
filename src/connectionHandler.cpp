@@ -303,7 +303,7 @@ std::vector<char> ConnectionHandler::encode(std::string &msg) {
         shortToBytes((short) 5, op);
         result.push_back(op[0]);
         result.push_back(op[1]);
-        for(unsigned int i = 2; i < msg.length() - 1; i++){
+        for(unsigned int i = word.length() + 1; i < msg.length(); i++){
             result.push_back(msg[i]);
         }
         result.push_back('\0');
@@ -317,7 +317,7 @@ std::vector<char> ConnectionHandler::encode(std::string &msg) {
             result.push_back(k);
         }
         result.push_back('\0');
-        for(unsigned int i = 4 + index; i < msg.length(); i++){
+        for(unsigned int i = 4   + index; i < msg.length(); i++){
             result.push_back(msg[i]);
         }
         result.push_back('\0');
