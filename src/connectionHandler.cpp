@@ -130,7 +130,7 @@ void ConnectionHandler::decode(std::string &frame){
     frame = frame.substr(2);
     switch (op) {
         case 9: //notification
-            toPrint += "NOTIFICATION ";
+            toPrint += "NOTIFICATION - ";
             if(frame[0] == '0')
                 toPrint += "PM ";
             else{
@@ -138,16 +138,26 @@ void ConnectionHandler::decode(std::string &frame){
                     toPrint += "Public ";
             }
             frame = frame.substr(1);
-            while(frame.length()>0){
-                if (frame[0] == '\0'){
-                    if(frame.length() != 1)
-                        toPrint += " ";
-                }
-                else{
-                    toPrint += frame[0];
-                }
+            while (frame[0] != '\0') { //user that sent the msg
+                toPrint += frame[0];
                 frame = frame.substr(1);
             }
+            frame = frame.substr(1);
+            toPrint += ": ";
+            while (frame[0] != '\0') { //msg content
+                toPrint += frame[0];
+                frame = frame.substr(1);
+            }
+//            while(frame.length()>0){
+//                if (frame[0] == '\0'){
+//                    if(frame.length() != 1)
+//                        toPrint += " ";
+//                }
+//                else{
+//                    toPrint += frame[0];
+//                }
+//                frame = frame.substr(1);
+//            }
             //cout << toPrint;
             break;
         case 10: { //ACK
