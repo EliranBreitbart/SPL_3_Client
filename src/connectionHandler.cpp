@@ -120,7 +120,6 @@ void ConnectionHandler::shortToBytes(short num, char* bytesArr)
 }
 
 void ConnectionHandler::decode(std::string &frame){
-    frame = frame.substr(0, frame.length()-1);
     std::string toPrint = "";
     string allToPrint = "";
     char opcode[2];
@@ -189,6 +188,7 @@ void ConnectionHandler::decode(std::string &frame){
                 case 7: //logstat
                 case 8: //stat
                     while (frame.length() > 0) {
+                        toPrint += " ";
                         char age[2];
                         age[0] = frame[0];
                         age[1] = frame[1];
@@ -219,13 +219,15 @@ void ConnectionHandler::decode(std::string &frame){
                         short shortNumFollowing = bytesToShort(numFollowing);
                         toPrint += std::to_string(shortNumFollowing);
                         frame = frame.substr(2);
-
-                        frame = frame.substr(1); //remove divider
-
+                        if(frame.size() > 4) {
+                            frame = frame.substr(5);//remove divider
+                        }else if(frame.size() == 1){
+                            frame = frame.substr(1);
+                            }
                         allToPrint += toPrint;
                         //cout << toPrint <<std::endl;
                         toPrint.clear();
-                        toPrint = "ACK " + std::to_string(senderOpcode);
+                        toPrint = "\nACK " + std::to_string(senderOpcode);
                     }
                     toPrint.clear();
                     toPrint = allToPrint;
@@ -278,10 +280,10 @@ std::vector<char> ConnectionHandler::encode(std::string &msg) {
             result.push_back('\0');
         }
         iss >> word;
-        if(word =="0"){
-            result.push_back('\0');
-        }else{
+        if(word =="1"){
             result.push_back('\1');
+        }else{
+            result.push_back('\0');
         }
     } else if(word == "LOGOUT"){
         shortToBytes((short) 3, op);
