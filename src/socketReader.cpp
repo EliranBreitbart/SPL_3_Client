@@ -15,11 +15,9 @@ void socketReader::run() {
             connectionHandler->setTerminated(true);
             break;
         } else {
-            int len = answer.length();
-            answer.resize(len - 1);
-            std::cout << answer;
             if (answer == "bye") {
                 std::cout << "Exiting...\n" << std::endl;
+                connectionHandler->setTerminated(true);
                 break;
             }
         }

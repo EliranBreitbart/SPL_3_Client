@@ -15,8 +15,8 @@ private:
 	tcp::socket socket_;
     void shortToBytes(short num, char* bytesArr);
     short bytesToShort(char* bytesArr);
-    std::vector<char> encode(std::string msg);
-    void decode(std::string frame);
+    std::vector<char> encode(std::string &msg);
+    void decode(std::string &frame);
     bool terminated = false;
 
 public:

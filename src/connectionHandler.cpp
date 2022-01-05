@@ -119,7 +119,7 @@ void ConnectionHandler::shortToBytes(short num, char* bytesArr)
     bytesArr[1] = (num & 0xFF);
 }
 
-void ConnectionHandler::decode(std::string frame){
+void ConnectionHandler::decode(std::string &frame){
     std::string toPrint = "";
     char opcode[2];
     opcode[0] = frame[0];
@@ -156,6 +156,7 @@ void ConnectionHandler::decode(std::string frame){
             short senderOpcode = bytesToShort(senderOp);
             toPrint += std::to_string(senderOpcode);
             frame = frame.substr(2);
+            frame.pop_back();
             switch (senderOpcode) {
                 case 1: //register
                 case 2: //login
@@ -163,7 +164,7 @@ void ConnectionHandler::decode(std::string frame){
                 case 5: //post
                 case 6: //pm
                 case 12: //block
-                    cout << toPrint;
+                    cout << toPrint <<std::endl;
                     break;
                 case 4: //follow/unfollow
                     toPrint += " ";
@@ -177,7 +178,7 @@ void ConnectionHandler::decode(std::string frame){
                         toPrint += frame[0];
                         frame = frame.substr(1);
                     }
-                    cout << toPrint;
+                    cout << toPrint <<std::endl;
                     break;
                 case 7: //logstat
                 case 8: //stat
@@ -215,7 +216,7 @@ void ConnectionHandler::decode(std::string frame){
 
                         frame = frame.substr(1); //remove divider
 
-                        cout << toPrint;
+                        cout << toPrint <<std::endl;
                         toPrint = "ACK " + std::to_string(senderOpcode);
                     }
                     break;
@@ -229,14 +230,14 @@ void ConnectionHandler::decode(std::string frame){
             sendOp[1] = frame[1];
             short shortSendOp = bytesToShort(sendOp);
             toPrint += std::to_string(shortSendOp);
-            cout << toPrint;
+            cout << toPrint <<std::endl;
         break;
     }
     toPrint.clear();
     frame.clear();
 }
 
-std::vector<char> ConnectionHandler::encode(std::string msg) {
+std::vector<char> ConnectionHandler::encode(std::string &msg) {
     std::vector<char> result;
     std::istringstream iss(msg);
     std::string word;
