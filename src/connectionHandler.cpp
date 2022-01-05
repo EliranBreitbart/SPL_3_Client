@@ -170,11 +170,6 @@ void ConnectionHandler::decode(std::string &frame){
                     //break;
                 case 4: //follow/unfollow
                     toPrint += " ";
-                    char followUnfollow[1];
-                    followUnfollow[0] = frame[0];
-                    toPrint += std::string(followUnfollow);
-                    frame = frame.substr(1);
-                    toPrint += " ";
                     while (frame[0] != '\0') { //username
                         toPrint += frame[0];
                         frame = frame.substr(1);
