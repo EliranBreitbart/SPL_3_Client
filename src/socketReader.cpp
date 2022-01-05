@@ -15,10 +15,12 @@ void socketReader::run() {
             connectionHandler->setTerminated(true);
             break;
         } else {
-            if (answer == "bye") {
+            if (answer == "10 3") {
                 std::cout << "Exiting...\n" << std::endl;
                 connectionHandler->setTerminated(true);
                 break;
+            }else{
+                std::cout<<answer<<std::endl;
             }
         }
     }

@@ -120,7 +120,9 @@ void ConnectionHandler::shortToBytes(short num, char* bytesArr)
 }
 
 void ConnectionHandler::decode(std::string &frame){
+    frame = frame.substr(0, frame.length()-1);
     std::string toPrint = "";
+    string allToPrint = "";
     char opcode[2];
     opcode[0] = frame[0];
     opcode[1] = frame[1];
@@ -146,7 +148,7 @@ void ConnectionHandler::decode(std::string &frame){
                 }
                 frame = frame.substr(1);
             }
-            cout << toPrint;
+            //cout << toPrint;
             break;
         case 10: { //ACK
             toPrint += "ACK ";
@@ -158,14 +160,14 @@ void ConnectionHandler::decode(std::string &frame){
             frame = frame.substr(2);
             frame.pop_back();
             switch (senderOpcode) {
-                case 1: //register
-                case 2: //login
-                case 3: //logout
-                case 5: //post
-                case 6: //pm
-                case 12: //block
-                    cout << toPrint <<std::endl;
-                    break;
+                //case 1: //register
+                //case 2: //login
+                //case 3: //logout
+                //case 5: //post
+                //case 6: //pm
+                //case 12: //block
+                    // cout << toPrint <<std::endl;
+                    //break;
                 case 4: //follow/unfollow
                     toPrint += " ";
                     char followUnfollow[1];
@@ -173,12 +175,11 @@ void ConnectionHandler::decode(std::string &frame){
                     toPrint += std::string(followUnfollow);
                     frame = frame.substr(1);
                     toPrint += " ";
-
                     while (frame[0] != '\0') { //username
                         toPrint += frame[0];
                         frame = frame.substr(1);
                     }
-                    cout << toPrint <<std::endl;
+                    //cout << toPrint <<std::endl;
                     break;
                 case 7: //logstat
                 case 8: //stat
@@ -216,9 +217,12 @@ void ConnectionHandler::decode(std::string &frame){
 
                         frame = frame.substr(1); //remove divider
 
-                        cout << toPrint <<std::endl;
+                        allToPrint += toPrint;
+                        //cout << toPrint <<std::endl;
                         toPrint = "ACK " + std::to_string(senderOpcode);
                     }
+                    toPrint = allToPrint;
+                    allToPrint.clear();
                     break;
             }
             break;
@@ -230,11 +234,12 @@ void ConnectionHandler::decode(std::string &frame){
             sendOp[1] = frame[1];
             short shortSendOp = bytesToShort(sendOp);
             toPrint += std::to_string(shortSendOp);
-            cout << toPrint <<std::endl;
+            //cout << toPrint <<std::endl;
         break;
     }
-    toPrint.clear();
     frame.clear();
+    frame = toPrint;
+    toPrint.clear();
 }
 
 std::vector<char> ConnectionHandler::encode(std::string &msg) {
