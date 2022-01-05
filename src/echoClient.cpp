@@ -25,6 +25,7 @@ int main (int argc, char *argv[]) {
 
     th1.join();
     th2.join();
+
 	//From here we will see the rest of the ehco client implementation:
 //    while (1) {
 //        const short bufsize = 1024;
