@@ -310,7 +310,7 @@ std::vector<char> ConnectionHandler::encode(std::string &msg) {
         for(unsigned int i = 4 + index; i < msg.length(); i++){
             result.push_back(msg[i]);
         }
-//        result.push_back('\0');
+        result.push_back('\0');
 //        std::time_t t = std::time(0);   // get time now
 //        std::tm* now = std::localtime(&t);
 //        std::string str = std::to_string(now->tm_mday) + "-" + std::to_string(now->tm_mon + 1) + '-' + std::to_string(now->tm_year + 1900);
