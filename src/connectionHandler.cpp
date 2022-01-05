@@ -231,6 +231,8 @@ void ConnectionHandler::decode(std::string frame){
             cout << toPrint;
         break;
     }
+    toPrint.clear();
+    frame.clear();
 }
 
 std::vector<char> ConnectionHandler::encode(std::string msg) {
@@ -275,17 +277,11 @@ std::vector<char> ConnectionHandler::encode(std::string msg) {
         shortToBytes((short) 4, op);
         result.push_back(op[0]);
         result.push_back(op[1]);
-        result.push_back('\0');
-        iss >> word;
-        for (char &k: word) {
-            result.push_back(k);
-        }
-        result.push_back('\0');
-    } else if(word == "UNFOLLOW"){
-        shortToBytes((short) 4, op);
-        result.push_back(op[0]);
-        result.push_back(op[1]);
-        result.push_back('\1');
+        iss>>word;
+        if(word == "0") {
+            result.push_back('\0');
+        } else
+            result.push_back('\1');
         iss >> word;
         for (char &k: word) {
             result.push_back(k);
