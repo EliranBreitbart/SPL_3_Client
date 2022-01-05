@@ -344,8 +344,9 @@ std::vector<char> ConnectionHandler::encode(std::string &msg) {
         shortToBytes((short) 12, op);
         result.push_back(op[0]);
         result.push_back(op[1]);
-        for(unsigned int i = 2; i < msg.length(); i++){
-            result.push_back(msg[i]);
+        iss >> word;
+        for(unsigned int i = 0; i < word.length(); i++){
+            result.push_back(word[i]);
         }
         result.push_back('\0');
     }

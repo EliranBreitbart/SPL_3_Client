@@ -15,8 +15,8 @@ void socketReader::run() {
             connectionHandler->setTerminated(true);
             break;
         } else {
-            if (answer == "10 3") {
-                std::cout << "Exiting...\n" << std::endl;
+            if (answer == "ACK 3") {
+                std::cout << "Exiting... Press Enter to Close Program\n" << std::endl;
                 connectionHandler->setTerminated(true);
                 break;
             }else{
