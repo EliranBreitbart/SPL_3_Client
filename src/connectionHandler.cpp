@@ -157,7 +157,11 @@ void ConnectionHandler::decode(std::string frame){
             frame = frame.substr(2);
             switch (senderOpcode) {
                 case 1: //register
+                case 2: //login
                 case 3: //logout
+                case 5: //post
+                case 6: //pm
+                case 12: //block
                     cout << toPrint;
                     break;
                 case 4: //follow/unfollow
