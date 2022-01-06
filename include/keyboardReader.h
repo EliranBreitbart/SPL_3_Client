@@ -13,6 +13,9 @@ public:
     void run();
 private:
     ConnectionHandler *connectionHandler;
+    bool closeMaybe = false;
+public:
+    void setCloseMaybe(bool closeMaybe);
 };
 
 

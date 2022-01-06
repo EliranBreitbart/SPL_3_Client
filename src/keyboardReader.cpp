@@ -9,11 +9,21 @@ void keyboardReader::run() {
     while (!connectionHandler->isTerminated() && 1) {
         const short bufsize = 1024;
         char buf[bufsize];
-        std::cin.getline(buf, bufsize);
-        std::string line(buf);
-        if (!connectionHandler->sendLine(line)) {
-            std::cout << "Disconnected. Exiting...\n" << std::endl;
-            break;
+        if (!closeMaybe) {
+            std::cin.getline(buf, bufsize);
+
+            std::string line(buf);
+            if (line == "LOGOUT")
+                closeMaybe = true;
+
+            if (!connectionHandler->sendLine(line)) {
+                std::cout << "Disconnected. Exiting...\n" << std::endl;
+                break;
+            }
         }
     }
+}
+
+void keyboardReader::setCloseMaybe(bool closeMaybe) {
+    keyboardReader::closeMaybe = closeMaybe;
 }

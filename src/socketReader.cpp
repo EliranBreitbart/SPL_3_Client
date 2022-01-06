@@ -4,7 +4,7 @@
 
 #include "../include/socketReader.h"
 
-socketReader::socketReader(ConnectionHandler* _connectionHandler) : connectionHandler(_connectionHandler){}
+socketReader::socketReader(ConnectionHandler* _connectionHandler, keyboardReader _keyboard) : connectionHandler(_connectionHandler),keyboard(_keyboard){}
 
 void socketReader::run() {
     while (!connectionHandler->isTerminated() && 1) {
@@ -19,7 +19,10 @@ void socketReader::run() {
                 std::cout << "Exiting... Press Enter to Close Program\n" << std::endl;
                 connectionHandler->setTerminated(true);
                 break;
-            }else{
+            }else if (answer == "ERROR 3"){
+                keyboard.setCloseMaybe(false);
+                std::cout<<answer<<std::endl;
+            } else {
                 std::cout<<answer<<std::endl;
             }
         }

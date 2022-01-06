@@ -19,7 +19,7 @@ int main (int argc, char *argv[]) {
         return 1;
     }
 	keyboardReader kb(&connectionHandler);
-    socketReader sr(&connectionHandler);
+    socketReader sr(&connectionHandler, kb);
     std::thread th1(&keyboardReader::run,&kb);
     std::thread th2(&socketReader::run,&sr);
 
